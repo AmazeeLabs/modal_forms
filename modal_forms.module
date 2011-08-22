@@ -148,7 +148,7 @@ function _modal_forms_doheader() {
 
   $throbber = theme('image', array('path' => ctools_image_path('loading_animation.gif', 'modal_forms'), 'alt' => t('Loading...'), 'title' => t('Loading')));
   $js_settings = array(
-    'modal-forms-small' => array(
+    'modal-popup-small' => array(
       'modalSize' => array(
         'type' => 'fixed',
         'width' => 300,
@@ -163,7 +163,7 @@ function _modal_forms_doheader() {
       'throbber' => $throbber,
       'closeText' => t('Close'),
     ),
-    'modal-forms-medium' => array(
+    'modal-popup-medium' => array(
       'modalSize' => array(
         'type' => 'fixed',
         'width' => 550,
@@ -178,7 +178,7 @@ function _modal_forms_doheader() {
       'throbber' => $throbber,
       'closeText' => t('Close'),
     ),
-    'modal-forms-large' => array(
+    'modal-popup-large' => array(
       'modalSize' => array(
         'type' => 'scale',
         'width' => 0.8,
