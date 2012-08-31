@@ -1,7 +1,8 @@
 <?php
 /**
- * @file modal_forms.module
- * TODO: Enter file description here.
+ * @file
+ * Modal Forms allows you to activate a Ctools based
+ * ajax modal on common Drupal forms
  */
 
 /**
@@ -16,7 +17,7 @@ function modal_forms_init() {
 }
 
 /**
- * Implementation of hook_menu().
+ * Implements hook_menu().
  */
 function modal_forms_menu() {
   $items['admin/config/development/modal_forms'] = array(

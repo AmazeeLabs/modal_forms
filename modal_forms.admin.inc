@@ -9,9 +9,11 @@
  * General configuration form for controlling the modal_forms behaviour.
  */
 function modal_forms_admin_settings() {
+
+  // Login settings.
   $form['modal_forms_login_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Login links settings')
+    '#title' => t('Login links settings'),
   );
   $form['modal_forms_login_settings']['modal_forms_login'] = array(
     '#type' => 'checkbox',
@@ -22,7 +24,11 @@ function modal_forms_admin_settings() {
   $form['modal_forms_login_settings']['modal_forms_login_links'] = array(
     '#type' => 'radios',
     '#title' => t('Display links'),
-    '#options' => array(0 => t('No links'), 1 => t('Show links'), 2 => t('Show links and open them in a modal')),
+    '#options' => array(
+      0 => t('No links'),
+      1 => t('Show links'),
+      2 => t('Show links and open them in a modal'),
+    ),
     '#default_value' => variable_get('modal_forms_login_links', 0),
     '#description' => t('Display the "Create new account" (if allowed) and "Request new password" links below the login form.'),
     '#states' => array(
@@ -32,9 +38,10 @@ function modal_forms_admin_settings() {
     ),
   );
 
+  // Register settings.
   $form['modal_forms_register_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Register links settings')
+    '#title' => t('Register links settings'),
   );
   $form['modal_forms_register_settings']['modal_forms_register'] = array(
     '#type' => 'checkbox',
@@ -43,9 +50,10 @@ function modal_forms_admin_settings() {
     '#description' => t('Automatically activate Modal forms for links to user/register.'),
   );
 
+  // Password settings.
   $form['modal_forms_password_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Password links settings')
+    '#title' => t('Password links settings'),
   );
   $form['modal_forms_password_settings']['modal_forms_password'] = array(
     '#type' => 'checkbox',
@@ -54,9 +62,10 @@ function modal_forms_admin_settings() {
     '#description' => t('Automatically activate Modal forms for links to user/password.'),
   );
 
+  // Contact settings.
   $form['modal_forms_contact_settings'] = array(
     '#type' => 'fieldset',
-    '#title' => t('Contact links settings')
+    '#title' => t('Contact links settings'),
   );
   $form['modal_forms_contact_settings']['modal_forms_contact'] = array(
     '#type' => 'checkbox',
@@ -65,11 +74,12 @@ function modal_forms_admin_settings() {
     '#description' => t('Automatically activate Modal forms for links to contact.'),
   );
 
+  // Advanced settings.
   $form['modal_forms_advanced_settings'] = array(
     '#type' => 'fieldset',
     '#title' => t('Advanced settings'),
     '#collapsible' => TRUE,
-    '#collapsed' => TRUE
+    '#collapsed' => TRUE,
   );
   $form['modal_forms_advanced_settings']['modal_forms_pages'] = array(
     '#type' => 'textarea',
