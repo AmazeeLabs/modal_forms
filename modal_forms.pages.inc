@@ -135,6 +135,69 @@ function modal_forms_contact($js = NULL) {
 }
 
 /**
+ * A modal comment callback.
+ */
+function modal_forms_comment_reply($js = NULL, $node, $pid = NULL) {
+  $output = array();
+  $comment = array(
+    'pid' => $pid,
+    'nid' => $node->nid,
+  );
+
+  if (!$js) {
+    return drupal_get_form('comment_node_' . $node->type . '_form', (object) $comment);
+  }
+
+  ctools_include('modal');
+  ctools_include('ajax');
+
+  $form_state = array(
+    'build_info' => array(
+      'args' => array(
+        (object) $comment,
+      ),
+    ),
+    'title' => t('Comment'),
+    'ajax' => TRUE,
+    're_render' => FALSE,
+    'no_redirect' => TRUE,
+  );
+
+  // Should we show the reply box?
+  if ($node->comment != COMMENT_NODE_OPEN) {
+    drupal_set_message(t('This discussion is closed: you can\'t post new comments.'), 'error');
+    drupal_goto('node/' . $node->nid);
+  }
+  else {
+    $output = drupal_build_form('comment_node_' . $node->type . '_form', $form_state);
+    // Remove output bellow the comment.
+    unset($output['comment_output_below']);
+  }
+
+  if (!$form_state['executed'] || $form_state['rebuild']) {
+    $output = ctools_modal_form_render($form_state, $output);
+  }
+  else {
+    // We'll just overwrite the form output if it was successful.
+    $output = array();
+    // @todo: Uncomment once http://drupal.org/node/1587916 is fixed.
+    //if (is_array($form_state['redirect'])) {
+    //  list($path, $options) = $form_state['redirect'];
+    //  $output[] = ctools_ajax_command_redirect($path, 0, $options);
+    //}
+    if (isset($_GET['destination'])) {
+      $output[] = ctools_ajax_command_redirect($_GET['destination']);
+    }
+    else {
+      $output[] = ctools_ajax_command_reload();
+    }
+  }
+
+  print ajax_render($output);
+  exit;
+}
+
+/**
  * Modal display of the node's webform.
  *
  * @param $node
@@ -147,14 +210,17 @@ function modal_forms_view_webform($js = NULL, $node) {
   if (!$js) {
     return drupal_get_form('webform_client_form_' . $node->nid, $node, FALSE);
   }
+
   ctools_include('modal');
   ctools_include('ajax');
+
   if (empty($node->webform['components'])) {
     // No webform or no components.
     $output[] = ctools_modal_command_display(t('Webform'), t('No webform found.'));
     print ajax_render($output);
     exit;
   }
+
   // Get webform defaults.
   $title = check_plain($node->title);
   $text = check_markup($node->webform['confirmation'], $node->webform['confirmation_format'], '', TRUE);
@@ -162,9 +228,11 @@ function modal_forms_view_webform($js = NULL, $node) {
     'title' => $title,
     'ajax' => TRUE,
   );
+
   // Prevent webform redirect.
   $GLOBALS['conf']['webform_blocks']['client-block-' . $node->nid]['pages_block'] = 1;
   $node->webform_block = TRUE;
+
   // Pass required parameters.
   $form_state['build_info']['args'] = array($node, FALSE);
   $output = ctools_modal_form_wrapper('webform_client_form_' . $node->nid, $form_state);
@@ -185,6 +253,7 @@ function modal_forms_view_webform($js = NULL, $node) {
       $output = ctools_modal_form_wrapper('webform_client_form_' . $node->nid, $form_state);
     }
   }
+
   print ajax_render($output);
   exit;
 }
@@ -194,11 +263,13 @@ function modal_forms_view_webform($js = NULL, $node) {
  */
 function modal_forms_dismiss($js = NULL) {
   if (!$js) {
-    return ;
+    return;
   }
+
   ctools_include('modal');
   ctools_include('ajax');
 
   $output = array(ctools_modal_command_dismiss());
+
   print ajax_render($output);
 }

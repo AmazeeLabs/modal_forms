@@ -62,6 +62,18 @@ function modal_forms_admin_settings() {
     '#description' => t('Automatically activate Modal forms for links to user/password.'),
   );
 
+  // Comments settings.
+  $form['modal_forms_comment_settings'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Comment links settings'),
+  );
+  $form['modal_forms_comment_settings']['modal_forms_comment'] = array(
+    '#type' => 'checkbox',
+    '#title' => t('Enable for comment links'),
+    '#default_value' => variable_get('modal_forms_comment', 0),
+    '#description' => t('Automatically activate Modal forms for links to comment.'),
+  );
+
   // Contact settings.
   $form['modal_forms_contact_settings'] = array(
     '#type' => 'fieldset',
