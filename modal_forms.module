@@ -159,14 +159,15 @@ function modal_forms_form_comment_form_alter(&$form, &$form_state, $form_id) {
 function _modal_forms_active() {
   // Code from the block_list funtion in block.module.
   $path = drupal_get_path_alias($_GET['q']);
-  $modal_forms_pages = variable_get('modal_forms_pages', "admin*\nimg_assist*\nimce*\nnode/add/*\nnode/*/edit");
+  $modal_forms_pages = variable_get('modal_forms_pages', "admin*\nimagebrowser*\nimg_assist*\nimce*\nnode/add/*\nnode/*/edit\nprint/*\nprintpdf/*\nsystem/ajax\nsystem/ajax/*");
   // Compare with the internal and path alias (if any).
   $page_match = drupal_match_path($path, $modal_forms_pages);
   if ($path != $_GET['q']) {
     $page_match = $page_match || drupal_match_path($_GET['q'], $modal_forms_pages);
   }
+  $page_match = variable_get('modal_forms_visibility', 0) == 0 ? !$page_match : $page_match;
 
-  return !$page_match;
+  return $page_match;
 }
 
 /**

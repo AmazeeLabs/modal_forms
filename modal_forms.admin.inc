@@ -93,11 +93,17 @@ function modal_forms_admin_settings() {
     '#collapsible' => TRUE,
     '#collapsed' => TRUE,
   );
+  $form['modal_forms_advanced_settings']['modal_forms_visibility'] = array(
+    '#type' => 'radios',
+    '#title' => t('Show Modal forms on specific pages'),
+    '#options' => array(0 => t('All pages except those listed'), 1 => t('Only the listed pages')),
+    '#default_value' => variable_get('modal_forms_visibility', 0),
+  );
   $form['modal_forms_advanced_settings']['modal_forms_pages'] = array(
     '#type' => 'textarea',
-    '#title' => t('Deactivate Modal forms on specific pages'),
-    '#default_value' => variable_get('modal_forms_pages', "admin*\nimg_assist*\nimce*\nnode/add/*\nnode/*/edit"),
-    '#description' => t("Enter one page per line as Drupal paths. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
+    '#title' => '<span class="element-invisible">' . t('Pages') . '</span>',
+    '#default_value' => variable_get('modal_forms_pages', "admin*\nimagebrowser*\nimg_assist*\nimce*\nnode/add/*\nnode/*/edit\nprint/*\nprintpdf/*\nsystem/ajax\nsystem/ajax/*"),
+    '#description' => t("Specify pages by using their paths. Enter one path per line. The '*' character is a wildcard. Example paths are %blog for the blog page and %blog-wildcard for every personal blog. %front is the front page.", array('%blog' => 'blog', '%blog-wildcard' => 'blog/*', '%front' => '<front>')),
   );
 
   return system_settings_form($form);
