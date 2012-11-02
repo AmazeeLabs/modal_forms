@@ -15,14 +15,7 @@ div.modal-forms-modal-content .item-list ul li {
 }
 
 div.modal-forms-modal-content div.messages {
-  border: none;
   margin: 0;
-  padding: 0;
-}
-div.modal-forms-modal-content div.messages > .messages {
-  border: 1px solid;
-  margin: 6px 0;
-  padding: 10px 10px 10px 40px;
 }
 
 /* Styles for modal forms modal */
