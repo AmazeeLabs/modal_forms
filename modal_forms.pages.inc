@@ -29,6 +29,10 @@ function modal_forms_login($js = NULL) {
     if (isset($_GET['destination'])) {
       $output[] = ctools_ajax_command_redirect($_GET['destination']);
     }
+    elseif(module_exists('login_destination')) {
+      $destination = login_destination_get_destination('login');
+      $output[] = ctools_ajax_command_redirect($destination['path']);
+    }
     else {
       $output[] = ctools_ajax_command_reload();
     }
@@ -58,6 +62,10 @@ function modal_forms_register($js = NULL) {
     ctools_add_js('ajax-responder');
     if (isset($_GET['destination'])) {
       $output[] = ctools_ajax_command_redirect($_GET['destination']);
+    }
+    elseif(module_exists('login_destination')) {
+      $destination = login_destination_get_destination('login');
+      $output[] = ctools_ajax_command_redirect($destination['path']);
     }
     else {
       $output[] = ctools_ajax_command_reload();
