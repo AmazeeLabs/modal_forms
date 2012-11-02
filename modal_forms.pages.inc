@@ -34,7 +34,6 @@ function modal_forms_login($js = NULL) {
     }
   }
   print ajax_render($output);
-  exit;
 }
 
 /**
@@ -65,7 +64,6 @@ function modal_forms_register($js = NULL) {
     }
   }
   print ajax_render($output);
-  exit;
 }
 
 /**
@@ -98,7 +96,6 @@ function modal_forms_password($js = NULL) {
     }
   }
   print ajax_render($output);
-  exit;
 }
 
 /**
@@ -131,7 +128,6 @@ function modal_forms_contact($js = NULL) {
     }
   }
   print ajax_render($output);
-  exit;
 }
 
 /**
@@ -194,7 +190,6 @@ function modal_forms_comment_reply($js = NULL, $node, $pid = NULL) {
   }
 
   print ajax_render($output);
-  exit;
 }
 
 /**
@@ -255,7 +250,6 @@ function modal_forms_view_webform($js = NULL, $node) {
   }
 
   print ajax_render($output);
-  exit;
 }
 
 /**
