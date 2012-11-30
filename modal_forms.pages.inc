@@ -139,9 +139,45 @@ function modal_forms_contact($js = NULL) {
 }
 
 /**
+ * A modal personal contact form
+ */
+function modal_forms_personal_contact($recipient, $js = NULL) {
+  module_load_include('inc', 'contact', 'contact.pages');
+
+  // Fall back if $js is not set.
+  if (!$js) {
+    return drupal_get_form('contact_personal_form', $recipient);
+  }
+
+  ctools_include('modal');
+  ctools_include('ajax');
+  $form_state = array(
+    // 'title' => t('Contact'),
+    'build_info' => array(
+      'args' => array($recipient)
+      ),
+    'ajax' => TRUE,
+  );
+  $output = ctools_modal_form_wrapper('contact_personal_form', $form_state);
+  if (!empty($form_state['executed'])) {
+    // We'll just overwrite the form output if it was successful.
+    $output = array();
+    ctools_add_js('ajax-responder');
+    if (isset($_GET['destination'])) {
+      $output[] = ctools_ajax_command_redirect($_GET['destination']);
+    }
+    else {
+      $output[] = ctools_ajax_command_reload();
+    }
+  }
+
+  print ajax_render($output);
+}
+
+/**
  * A modal comment callback.
  */
-function modal_forms_comment_reply($js = NULL, $node, $pid = NULL) {
+function modal_forms_comment_reply($node, $js = NULL, $pid = NULL) {
   $output = array();
   $comment = array(
     'pid' => $pid,
@@ -206,7 +242,7 @@ function modal_forms_comment_reply($js = NULL, $node, $pid = NULL) {
  * @param $node
  *   A node object.
  */
-function modal_forms_view_webform($js = NULL, $node) {
+function modal_forms_view_webform($node, $js = NULL) {
   $output = array();
 
   // Fall back if $js is not set.

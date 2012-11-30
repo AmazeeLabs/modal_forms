@@ -60,10 +60,18 @@ function modal_forms_menu() {
     'file' => 'modal_forms.pages.inc',
     'type' => MENU_CALLBACK,
   );
+  $items['modal_forms/%ctools_js/user/%user/contact'] = array(
+    'title' => 'Contact',
+    'page callback' => 'modal_forms_personal_contact',
+    'page arguments' => array(3, 1),
+    'access arguments' => array('access user contact forms'),
+    'file' => 'modal_forms.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
   $items['modal_forms/%ctools_js/comment/reply/%node'] = array(
     'title' => 'Comment',
     'page callback' => 'modal_forms_comment_reply',
-    'page arguments' => array(1, 4),
+    'page arguments' => array(4, 1),
     'access arguments' => array('post comments'),
     'file' => 'modal_forms.pages.inc',
     'type' => MENU_CALLBACK,
@@ -71,7 +79,7 @@ function modal_forms_menu() {
   $items['modal_forms/%ctools_js/webform/%node'] = array(
     'title' => 'Webform',
     'page callback' => 'modal_forms_view_webform',
-    'page arguments' => array(1, 3),
+    'page arguments' => array(3, 1),
     'access callback' => 'node_access',
     'access arguments' => array('view', 3),
     'file' => 'modal_forms.pages.inc',
