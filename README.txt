@@ -19,8 +19,8 @@ Supported forms:
 * Request new password (modal_forms/nojs/password)
 * Create new account (modal_forms/nojs/register)
 * Contact (modal_forms/nojs/contact)
-* Comment (modal_forms/%ctools_js/comment/reply/%node)
-* Webform (modal_forms/%ctools_js/webform/%node)
+* Comment (modal_forms/nojs/comment/reply/%node)
+* Webform (modal_forms/nojs/webform/%node)
 
 Function that rewrite normal links to modal forms links (except for webforms) can be
 activated on the modules configuration page.
