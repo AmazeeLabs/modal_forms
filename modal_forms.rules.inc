@@ -55,5 +55,6 @@ function modal_forms_aware_redirect($url, $force = FALSE, $destination = FALSE) 
     $_GET['destination'] = url($url, $options);
     return;
   }
+  module_load_include('inc', 'rules', 'modules/system.eval');
   rules_action_drupal_goto($url, $force, $destination);
 }
