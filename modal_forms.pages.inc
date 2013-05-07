@@ -244,6 +244,13 @@ function modal_forms_comment_reply($node, $js = NULL, $pid = NULL) {
 function modal_forms_view_webform($node, $js = NULL) {
   $output = array();
 
+  // If we are in a translation node, and there are no webform['components'], so
+  // we should look into the source webform node, to load our webform from there.
+  if(empty($node->webform['components']) && (isset($node->tnid) && $node->tnid != $node->nid)) {
+    $tnode = $node;
+    $node = node_load($tnode->tnid);
+  }
+
   // Fall back if $js is not set.
   if (!$js) {
     return drupal_get_form('webform_client_form_' . $node->nid, $node, FALSE);
@@ -260,7 +267,8 @@ function modal_forms_view_webform($node, $js = NULL) {
   }
 
   // Get webform title.
-  $title = check_plain($node->title);
+  // If the node was translated, take the translated value instead of the source.
+  $title = (isset($tnode)) ? check_plain($tnode->title) : check_plain($node->title);
 
   $form_state = array(
     'title' => $title,
