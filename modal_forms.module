@@ -165,6 +165,13 @@ function modal_forms_form_comment_form_alter(&$form, &$form_state, $form_id) {
  *   TRUE if modal_forms should be active for the current page.
  */
 function _modal_forms_active() {
+  global $is_https;
+
+  // Optionally disable modal activation for insecure/non-https pages.
+  if (!$is_https && variable_get('modal_forms_ssl', 0)) {
+    return FALSE;
+  }
+
   // Code from the block_list funtion in block.module.
   $path = drupal_get_path_alias($_GET['q']);
   $modal_forms_pages = variable_get('modal_forms_pages', "admin*\nimagebrowser*\nimg_assist*\nimce*\nnode/add/*\nnode/*/edit\nprint/*\nprintpdf/*\nsystem/ajax\nsystem/ajax/*");
