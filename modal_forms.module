@@ -253,6 +253,9 @@ function _modal_forms_doheader() {
     ),
   );
 
+  // Allow other modules to change or add modal javascript settings.
+  drupal_alter('modal_forms_js_settings', $js_settings);
+
   drupal_add_js($js_settings, 'setting');
 
   // Add modal_forms own js and CSS.
