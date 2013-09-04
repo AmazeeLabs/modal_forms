@@ -26,8 +26,8 @@ function modal_forms_login($js = NULL) {
     $output = array();
     ctools_add_js('ajax-responder');
     $output[] = ctools_modal_command_dismiss(t('Login success'));
-    if (isset($_GET['destination'])) {
-      $output[] = ctools_ajax_command_redirect($_GET['destination']);
+    if (isset($_GET['destination']) && !url_is_external($_GET['destination'])) {
+      $output[] = ctools_ajax_command_redirect(_modal_forms_goto_destination_url());
     }
     elseif(module_exists('login_destination')) {
       $destination = login_destination_get_destination('login');
@@ -327,4 +327,26 @@ function modal_forms_dismiss($js = NULL) {
   $output = array(ctools_modal_command_dismiss());
 
   print ajax_render($output);
+}
+
+/**
+ * Re-implements drupal_goto() for use in JS.
+ *
+ * @see drupal_goto().
+ */
+function _modal_forms_goto_destination_url() {
+  $options = array();
+  $http_response_code = 302;
+
+  $destination = drupal_parse_url($_GET['destination']);
+  $path = $destination['path'];
+  $options['query'] = $destination['query'];
+  $options['fragment'] = $destination['fragment'];
+
+  drupal_alter('drupal_goto', $path, $options, $http_response_code);
+
+  // JS does also need absolute URLs.
+  $options['absolute'] = TRUE;
+
+  return url($path, $options);
 }
