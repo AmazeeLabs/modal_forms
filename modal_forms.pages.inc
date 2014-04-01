@@ -74,7 +74,7 @@ function modal_forms_register($js = NULL) {
     }
     elseif (module_exists('login_destination')) {
       $destination = login_destination_get_destination('login');
-      $output[] = ctools_ajax_command_redirect($destination['path']);
+      $output[] = ctools_ajax_command_redirect(is_array($destination) ? $destination[0] : $destination);
     }
     else {
       $output[] = ctools_ajax_command_reload();
