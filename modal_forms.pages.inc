@@ -6,6 +6,21 @@
  */
 
 /**
+ * Wrapper for the ctools_ajax_command_redirect() that will handle urls which
+ * contain query variables and fragments.
+ */
+function modal_forms_ctools_ajax_command_redirect($url) {
+  // Parse the URL, like the drupal_goto() does. If we do not do that. and we
+  // have a destination which contains query paramters, it will not work because
+  // the url() will encode the entire path.
+  $destination = drupal_parse_url($url);
+  $path = $destination['path'];
+  $options['query'] = $destination['query'];
+  $options['fragment'] = $destination['fragment'];
+  return ctools_ajax_command_redirect($path, 0, $options);
+}
+
+/*
  * A modal user login callback.
  */
 function modal_forms_login($js = NULL) {
@@ -37,7 +52,7 @@ function modal_forms_login($js = NULL) {
     ctools_add_js('ajax-responder');
     $output[] = ctools_modal_command_dismiss();
     if (isset($_GET['destination'])) {
-      $output[] = ctools_ajax_command_redirect($_GET['destination']);
+      $output[] = modal_forms_ctools_ajax_command_redirect($_GET['destination']);
     }
     elseif (module_exists('login_destination')) {
       $destination = login_destination_get_destination('login');
@@ -71,7 +86,7 @@ function modal_forms_register($js = NULL) {
     $output = array();
     ctools_add_js('ajax-responder');
     if (isset($_GET['destination'])) {
-      $output[] = ctools_ajax_command_redirect($_GET['destination']);
+      $output[] = modal_forms_ctools_ajax_command_redirect($_GET['destination']);
     }
     elseif (module_exists('login_destination')) {
       $destination = login_destination_get_destination('login');
@@ -107,7 +122,7 @@ function modal_forms_password($js = NULL) {
     $output = array();
     ctools_add_js('ajax-responder');
     if (isset($_GET['destination'])) {
-      $output[] = ctools_ajax_command_redirect($_GET['destination']);
+      $output[] = modal_forms_ctools_ajax_command_redirect($_GET['destination']);
     }
     else {
       $output[] = ctools_ajax_command_reload();
@@ -139,7 +154,7 @@ function modal_forms_contact($js = NULL) {
     $output = array();
     ctools_add_js('ajax-responder');
     if (isset($_GET['destination'])) {
-      $output[] = ctools_ajax_command_redirect($_GET['destination']);
+      $output[] = modal_forms_ctools_ajax_command_redirect($_GET['destination']);
     }
     else {
       $output[] = ctools_ajax_command_reload();
@@ -240,7 +255,7 @@ function modal_forms_comment_reply($node, $js = NULL, $pid = NULL) {
     // @endcode
     // @codingStandardsIgnoreEnd
     if (isset($_GET['destination'])) {
-      $output[] = ctools_ajax_command_redirect($_GET['destination']);
+      $output[] = modal_forms_ctools_ajax_command_redirect($_GET['destination']);
     }
     else {
       $output[] = ctools_ajax_command_reload();
