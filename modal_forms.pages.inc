@@ -49,7 +49,9 @@ function modal_forms_login($js = NULL) {
       $output[] = ctools_ajax_command_redirect($destination['path']);
     }
     else {
-      $output[] = ctools_ajax_command_reload();
+      // The default is to redirect to the dashboard.
+      global $user;
+      $output[] = ctools_ajax_command_redirect('user/' . $user->uid . '/dashboard');
     }
   }
   print ajax_render($output);
