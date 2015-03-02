@@ -40,7 +40,7 @@ function modal_forms_login($js = NULL) {
     // We'll just overwrite the form output if it was successful.
     $output = array();
     ctools_add_js('ajax-responder');
-    $output[] = ctools_modal_command_dismiss(t('Login success'));
+    $output[] = ctools_modal_command_display(t('Successful login'), '<div class="login-success">' . t('You have been successfully logged in. Please wait while you are redirected back to the site.') . '</div>');
     if (isset($_GET['destination'])) {
       $output[] = modal_forms_ctools_ajax_command_redirect($_GET['destination']);
     }
