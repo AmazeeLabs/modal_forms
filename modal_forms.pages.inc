@@ -307,8 +307,19 @@ function modal_forms_view_webform($node, $js = NULL) {
         $output[] = ctools_modal_command_display($title, $confirmation);
       }
       elseif ('<none>' == $node->webform['redirect_url']) {
-        // Reload webform node itself.
-        $output[] = ctools_ajax_command_reload();
+        // If there is a redirect in the form state, then we use that one.
+        if (!empty($form_state['redirect'])) {
+          if (is_string($form_state['redirect'])) {
+            $output[] = ctools_ajax_command_redirect($form_state['redirect']);
+          }
+          elseif (is_array($form_state['redirect'])) {
+            $output[] = ctools_ajax_command_redirect($form_state['redirect'][0], 0, $form_state['redirect'][1]);
+          }
+        }
+        else {
+          // Reload webform node itself.
+          $output[] = ctools_ajax_command_reload();
+        }
       }
       else {
         // Redirect to URL.
