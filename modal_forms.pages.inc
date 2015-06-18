@@ -226,6 +226,13 @@ function modal_forms_comment_reply($js = NULL, $node, $pid = NULL) {
 function modal_forms_view_webform($js = NULL, $node) {
   $output = array();
 
+  // If we are in a translation node, and there are no webform['components'], so
+  // we should look into the source webform node, to load our webform from there.
+  if (empty($node->webform['components']) && (isset($node->tnid) && $node->tnid != $node->nid)) {
+    $tnode = $node;
+    $node = node_load($tnode->tnid);
+  }
+
   // Fall back if $js is not set.
   if (!$js) {
     return drupal_get_form('webform_client_form_' . $node->nid, $node, FALSE);
@@ -241,9 +248,10 @@ function modal_forms_view_webform($js = NULL, $node) {
     exit;
   }
 
-  // Get webform defaults.
-  $title = check_plain($node->title);
-  $text = check_markup($node->webform['confirmation'], $node->webform['confirmation_format'], '', TRUE);
+  // Get webform title.
+  // If the node was translated, take the translated value instead of the source.
+  $title = (isset($tnode)) ? check_plain($tnode->title) : check_plain($node->title);
+
   $form_state = array(
     'title' => $title,
     'ajax' => TRUE,
@@ -255,25 +263,45 @@ function modal_forms_view_webform($js = NULL, $node) {
 
   // Pass required parameters.
   $form_state['build_info']['args'] = array($node, FALSE);
+
+  // Render the Webform.
   $output = ctools_modal_form_wrapper('webform_client_form_' . $node->nid, $form_state);
 
   if (!empty($form_state['executed'])) {
     if (!isset($form_state['storage'])) {
       ctools_add_js('ajax-responder');
-      $output[] = ctools_modal_command_display($title, $text . ctools_ajax_text_button(t('Close'), 'modal_forms/nojs/dismiss', t('Close')));
-      // @todo Add support for redirect. Require some magic.
-      // Copied from webform_client_form_submit().
-      // $redirect_url = trim($node->webform['redirect_url']);
-      // $redirect_url = _webform_filter_values($redirect_url, $node, NULL, NULL, FALSE, TRUE);
-      // $output[] = ctools_ajax_command_redirect($redirect_url);
-    }
-    else {
-      // We are on a multistep form step.
-      $form_state['executed'] = array();
-      $output = ctools_modal_form_wrapper('webform_client_form_' . $node->nid, $form_state);
+      // Handle confirmation message or redirect.
+      if ('<confirmation>' == $node->webform['redirect_url']) {
+        // Use confirmation message if set, default text otherwise.
+        // See webform/templates/webform-confirmation.tpl.php.
+        $message = (empty($node->webform['confirmation'])) ? t('Thank you, your submission has been received.') : check_markup($node->webform['confirmation'], $node->webform['confirmation_format'], '', TRUE);
+        $confirmation = '<div class="webform-confirmation">' . $message . '</div>';
+        $confirmation .= ctools_ajax_text_button(t('Close'), 'modal_forms/nojs/dismiss', t('Close'));
+        $output[] = ctools_modal_command_display($title, $confirmation);
+      }
+      elseif ('<none>' == $node->webform['redirect_url']) {
+        // If there is a redirect in the form state, then we use that one.
+        if (!empty($form_state['redirect'])) {
+          if (is_string($form_state['redirect'])) {
+            $output[] = ctools_ajax_command_redirect($form_state['redirect']);
+          }
+          elseif (is_array($form_state['redirect'])) {
+            $output[] = ctools_ajax_command_redirect($form_state['redirect'][0], 0, $form_state['redirect'][1]);
+          }
+        }
+        else {
+          // Reload webform node itself.
+          $output[] = ctools_ajax_command_reload();
+        }
+      }
+      else {
+        // Redirect to URL.
+        // Note: Redirect code in webform_client_form_submit() is more complex.
+        $url = trim(ltrim($node->webform['redirect_url'], '/'));
+        $output[] = ctools_ajax_command_redirect($url);
+      }
     }
   }
-
   print ajax_render($output);
 }
 
