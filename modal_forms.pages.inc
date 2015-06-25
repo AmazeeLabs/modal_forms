@@ -260,6 +260,13 @@ function modal_forms_view_webform($node, $js = NULL) {
     $node = node_load($tnode->tnid);
   }
 
+  // @todo: find a better solution for this. This will not work very good when
+  // we have the title field already translated...
+  // hack: If we do not have a translation, manually translate the title here.
+  if (!isset($tnode)) {
+    $node->title = t($node->title);
+  }
+
   // Fall back if $js is not set.
   if (!$js) {
     return drupal_get_form('webform_client_form_' . $node->nid, $node, FALSE);
