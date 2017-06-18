@@ -302,7 +302,7 @@ function modal_forms_view_webform($node, $js = NULL) {
   $output = ctools_modal_form_wrapper('webform_client_form_' . $node->nid, $form_state);
 
   if (!empty($form_state['executed'])) {
-    if (!isset($form_state['storage'])) {
+    if ($form_state['webform_completed']) {
       ctools_add_js('ajax-responder');
       // Handle confirmation message or redirect.
       if ('<confirmation>' == $node->webform['redirect_url']) {
