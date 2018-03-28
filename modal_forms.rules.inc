@@ -1,7 +1,8 @@
 <?php
 
 /**
- * @file Rules integration for the Modal forms module.
+ * @file
+ * Rules integration for the Modal forms.
  */
 
 /**
@@ -42,7 +43,6 @@ function modal_forms_rules_action_info() {
 
 /**
  * Action: Modal forms aware page redirect.
- *
  */
 function modal_forms_aware_redirect($url, $force = FALSE, $destination = FALSE) {
   if ((arg(0) === 'modal_forms') && (arg(1) === 'ajax')) {

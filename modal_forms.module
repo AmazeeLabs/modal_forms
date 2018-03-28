@@ -1,15 +1,18 @@
 <?php
+
 /**
  * @file
- * Modal Forms allows you to activate a Ctools based
- * ajax modal on common Drupal forms
+ * Main file for the Modal Forms.
+ *
+ * Modal Forms allows you to activate a Ctools based ajax modal on common Drupal
+ * forms.
  */
 
 /**
  * Implements hook_init().
  */
 function modal_forms_init() {
-  // Do not load modal_forms during the Drupal installation process, e.g. if part
+  // Don't load modal_forms during the Drupal installation process, e.g. if part
   // of installation profiles.
   if (!drupal_installation_attempted()) {
     _modal_forms_doheader();
@@ -128,12 +131,14 @@ function modal_forms_form_alter(&$form, &$form_state, $form_id) {
         }
       }
       break;
+
     case 'user_register_form':
       if (arg(0) == 'modal_forms') {
         $form['account']['name']['#size'] = 30;
         $form['account']['mail']['#size'] = 30;
       }
       break;
+
     case 'user_pass':
       if (arg(0) == 'modal_forms') {
         $form['name']['#size'] = 30;
@@ -161,7 +166,7 @@ function modal_forms_form_comment_form_alter(&$form, &$form_state, $form_id) {
 /**
  * Check if modal_forms should be active for the current URL.
  *
- * @return
+ * @return bool
  *   TRUE if modal_forms should be active for the current page.
  */
 function _modal_forms_active() {
@@ -191,10 +196,12 @@ function _modal_forms_active() {
 function _modal_forms_doheader() {
   static $already_added = FALSE;
   if ($already_added) {
-    return; // Don't add the JavaScript and CSS multiple times.
+    // Don't add the JavaScript and CSS multiple times.
+    return;
   }
   if (!_modal_forms_active()) {
-    return; // Don't add the JavaScript and CSS on specified paths.
+    // Don't add the JavaScript and CSS on specified paths.
+    return;
   }
 
   // Include the CTools tools that we need.
@@ -204,7 +211,12 @@ function _modal_forms_doheader() {
   // Add CTools' javascript to the page.
   ctools_modal_add_js();
 
-  $throbber = theme('image', array('path' => ctools_image_path('loading_animation.gif', 'modal_forms'), 'alt' => t('Loading...'), 'title' => t('Loading')));
+  $throbber = theme('image', array(
+    'path' => ctools_image_path('loading_animation.gif', 'modal_forms'),
+    'alt' => t('Loading...'),
+    'title' => t('Loading'),
+  ));
+
   $js_settings = array(
     'modal-popup-small' => array(
       'modalSize' => array(

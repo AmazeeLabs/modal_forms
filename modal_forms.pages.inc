@@ -1,10 +1,11 @@
 <?php
+
 /**
  * @file
  * Page callbacks for the modal_forms module.
  */
 
-/*
+/**
  * A modal user login callback.
  */
 function modal_forms_login($js = NULL) {
@@ -16,7 +17,7 @@ function modal_forms_login($js = NULL) {
   ctools_include('modal');
   ctools_include('ajax');
   $form_state = array(
-    // 'title' => t('Log in'),
+    // 'title' => t('Log in'),.
     'ajax' => TRUE,
   );
 
@@ -61,7 +62,7 @@ function modal_forms_register($js = NULL) {
   ctools_include('modal');
   ctools_include('ajax');
   $form_state = array(
-    // 'title' => t('Create new account'),
+    // 'title' => t('Create new account'),.
     'ajax' => TRUE,
   );
   $output = ctools_modal_form_wrapper('user_register_form', $form_state);
@@ -97,7 +98,7 @@ function modal_forms_password($js = NULL) {
   ctools_include('modal');
   ctools_include('ajax');
   $form_state = array(
-    // 'title' => t('Request new password'),
+    // 'title' => t('Request new password'),.
     'ajax' => TRUE,
   );
   $output = ctools_modal_form_wrapper('user_pass', $form_state);
@@ -129,7 +130,7 @@ function modal_forms_contact($js = NULL) {
   ctools_include('modal');
   ctools_include('ajax');
   $form_state = array(
-    // 'title' => t('Contact'),
+    // 'title' => t('Contact'),.
     'ajax' => TRUE,
   );
   $output = ctools_modal_form_wrapper('contact_site_form', $form_state);
@@ -148,7 +149,7 @@ function modal_forms_contact($js = NULL) {
 }
 
 /**
- * A modal personal contact form
+ * A modal personal contact form.
  */
 function modal_forms_personal_contact($recipient, $js = NULL) {
   module_load_include('inc', 'contact', 'contact.pages');
@@ -161,10 +162,10 @@ function modal_forms_personal_contact($recipient, $js = NULL) {
   ctools_include('modal');
   ctools_include('ajax');
   $form_state = array(
-    // 'title' => t('Contact'),
+    // 'title' => t('Contact'),.
     'build_info' => array(
-      'args' => array($recipient)
-      ),
+      'args' => array($recipient),
+    ),
     'ajax' => TRUE,
   );
   $output = ctools_modal_form_wrapper('contact_personal_form', $form_state);
@@ -206,7 +207,7 @@ function modal_forms_comment_reply($node, $js = NULL, $pid = NULL) {
         (object) $comment,
       ),
     ),
-    // 'title' => t('Comment'),
+    // 'title' => t('Comment'),.
     'ajax' => TRUE,
     're_render' => FALSE,
     'no_redirect' => TRUE,
@@ -214,7 +215,7 @@ function modal_forms_comment_reply($node, $js = NULL, $pid = NULL) {
 
   // Should we show the reply box?
   if ($node->comment != COMMENT_NODE_OPEN) {
-    drupal_set_message(t('This discussion is closed: you can\'t post new comments.'), 'error');
+    drupal_set_message(t("This discussion is closed: you can't post new comments."), 'error');
     drupal_goto('node/' . $node->nid);
   }
   else {
@@ -230,10 +231,14 @@ function modal_forms_comment_reply($node, $js = NULL, $pid = NULL) {
     // We'll just overwrite the form output if it was successful.
     $output = array();
     // @todo: Uncomment once http://drupal.org/node/1587916 is fixed.
-    //if (is_array($form_state['redirect'])) {
+    // @codingStandardsIgnoreStart
+    // @code
+    // if (is_array($form_state['redirect'])) {
     //  list($path, $options) = $form_state['redirect'];
     //  $output[] = ctools_ajax_command_redirect($path, 0, $options);
-    //}
+    // }
+    // @endcode
+    // @codingStandardsIgnoreEnd
     if (isset($_GET['destination'])) {
       $output[] = ctools_ajax_command_redirect($_GET['destination']);
     }
@@ -247,14 +252,14 @@ function modal_forms_comment_reply($node, $js = NULL, $pid = NULL) {
 /**
  * Modal display of the node's webform.
  *
- * @param $node
+ * @param object $node
  *   A node object.
  */
 function modal_forms_view_webform($node, $js = NULL) {
   $output = array();
 
   // If we are in a translation node, and there are no webform['components'], so
-  // we should look into the source webform node, to load our webform from there.
+  // We should look into the source webform node to load our webform from there.
   if (empty($node->webform['components']) && (isset($node->tnid) && $node->tnid != $node->nid)) {
     $tnode = $node;
     $node = node_load($tnode->tnid);
@@ -276,7 +281,7 @@ function modal_forms_view_webform($node, $js = NULL) {
   }
 
   // Get webform title.
-  // If the node was translated, take the translated value instead of the source.
+  // If the node was translated take the translated value instead of the source.
   $title = (isset($tnode)) ? check_plain($tnode->title) : check_plain($node->title);
 
   $form_state = array(
@@ -326,7 +331,7 @@ function modal_forms_view_webform($node, $js = NULL) {
  */
 function modal_forms_dismiss($js = NULL) {
   if (!$js) {
-    // we should never be here out of ajax context
+    // We should never be here out of ajax context.
     return MENU_NOT_FOUND;
   }
 
