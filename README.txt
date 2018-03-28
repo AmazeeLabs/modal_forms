@@ -1,18 +1,47 @@
-Drupal modal_forms module:
-------------------------
-Maintainers:
-  Fredrik Jonsson (http://drupal.org/user/5546)
-Requires - Drupal 7
-License - GPL (see LICENSE)
+@codingStandardsIgnoreFile
+
+CONTENTS OF THIS FILE
+---------------------
+   
+ * Introduction
+ * Requirements
+ * Installation
+ * Configuration
+ * Supported forms
+ * Links to the modal version of the forms
+ * Webforms
+ * Maintainers
 
 
-Overview:
---------
-Modal forms make use of the modal feature in the ctools module to open
-some common forms in a modal window.
+INTRODUCTION
+------------
+
+Modal forms make use of the modal feature in the ctools module to open some
+common forms in a modal window.
 
 
-Supported forms:
+REQUIREMENTS
+------------
+
+This project requires the following:
+
+ * Chaos tool suite (ctools) (https://drupal.org/project/ctools)
+
+INSTALLATION
+------------
+
+Install as you would normally install a contributed Drupal. See:
+https://drupal.org/documentation/install/modules-themes/modules-7 for further
+information.
+
+
+CONFIGURATION
+-------------
+
+ * Go to Configuration » Development » Modal forms to find all the configuration
+   options.
+
+SUPPORTED FORMS
 ---------------
 
 * Log in (modal_forms/nojs/login)
@@ -22,17 +51,17 @@ Supported forms:
 * Comment (modal_forms/nojs/comment/reply/%node)
 * Webform (modal_forms/nojs/webform/%node)
 
-Function that rewrite normal links to modal forms links (except for webforms) can be
-activated on the modules configuration page.
+Function that rewrite normal links to modal forms links (except for webforms)
+can be activated on the modules configuration page.
 
 
-Links to the modal version of the forms:
+LINKS TO THE MODAL VERSION OF THE FORMS
 ---------------------------------------
 
-JavaScript that can rewrite standard links to these forms in to a modal equivalent are
-provided, see the module configuration page to activate them.
+JavaScript that can rewrite standard links to these forms in to a modal
+equivalent are provided, see the module configuration page to activate them.
 
-To build links in code I recommend using the ctools_modal_text_button() function.
+To build links in code I recommend using the ctools_modal_text_button() function
 
 $links[] = ctools_modal_text_button(t('Modal Login'), 'modal_forms/nojs/login', t('Login via modal'));
 $links[] = ctools_modal_text_button(t('Modal Login'), 'modal_forms/nojs/login', t('Login via modal'),  'ctools-modal-modal-popup-small');
@@ -46,8 +75,8 @@ Popup styles and sizes:
 
 The include CSS file tries to mimic the default Colorbox style.
 
-The extra class "ctools-modal-modal-popup-small" in the links above tells the module what
-popup style size to use. There are three options included.
+The extra class "ctools-modal-modal-popup-small" in the links above tells the
+project what popup style size to use. There are three options included.
 
 * ctools-modal-modal-popup-small (defaults to 300x300)
 * ctools-modal-modal-popup-medium (defaults to 550x450)
@@ -56,7 +85,7 @@ popup style size to use. There are three options included.
 Go to the configurations page for Modal forms to adjust the sizes.
 
 
-Webforms:
+WEBFORMS
 --------
 There is support to open webforms in a modal by constructing special links.
 
@@ -67,14 +96,9 @@ A webform link should look like this one:
 Replace [nid] with the node id of your webform.
 
 
-Installation:
-------------
-1. Download and unpack the Modal forms module directory in your modules folder
-   (this will usually be "sites/all/modules/").
-2. Go to "Administer" -> "Modules" and enable the module.
+MAINTAINERS
+-----------
 
-
-Configuration:
--------------
-Go to "Configuration" -> "Development" -> "Modal forms" to find
-all the configuration options.
+Current maintainers:
+ * Fredrik Jonsson (frjo) (http://drupal.org/user/5546)
+ * Renato Gonçalves (RenatoG) - https://www.drupal.org/user/3326031
