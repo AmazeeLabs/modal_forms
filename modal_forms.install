@@ -2,16 +2,8 @@
 
 /**
  * @file
- * Contains install and update functions for modal_forms.
+ * Contains install and update functions for Modal Forms.
  */
-
-
-/**
- * Implements hook_install().
- */
-function modal_forms_install() {
-
-}
 
 /**
  * Implements hook_uninstall().
