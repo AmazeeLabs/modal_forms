@@ -304,7 +304,7 @@ function _modal_forms_doheader() {
 /**
  * Implements hook_help().
  */
-function modal_forms_help($path, $arg) {
+function modal_forms_help($path) {
 
   switch ($path) {
     case 'admin/help#modal_forms':
