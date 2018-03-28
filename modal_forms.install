@@ -9,5 +9,8 @@
  * Implements hook_uninstall().
  */
 function modal_forms_uninstall() {
-  db_query("DELETE FROM {variable} WHERE name LIKE 'modal_forms_%'");
+  // Remove all variables.
+  db_delete('variable')
+    ->condition('name', 'modal_forms_%', 'like')
+    ->execute();
 }
