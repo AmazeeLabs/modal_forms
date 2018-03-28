@@ -254,6 +254,8 @@ function modal_forms_comment_reply($node, $js = NULL, $pid = NULL) {
  *
  * @param object $node
  *   A node object.
+ * @param string $js
+ *   A javascript string.
  */
 function modal_forms_view_webform($node, $js = NULL) {
   $output = array();
